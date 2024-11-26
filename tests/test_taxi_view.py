@@ -18,19 +18,19 @@ class ManufacturerListTest(TestCase):
         response = self.client.get(MANUFACTURER_LIST_URL)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "taxi/manufacturer_list.html.html")
+        self.assertTemplateUsed(response, "taxi/manufacturer_list.html")
 
     def test_manufacturer_list_paginated_correctly(self):
         response = self.client.get(MANUFACTURER_LIST_URL)
 
         self.assertEqual(
-            len(response.context["manufacturer_list.html"]), PAGINATION
+            len(response.context["manufacturer_list"]), PAGINATION
         )
 
     def test_manufacturer_list_ordered_by_name(self):
         response = self.client.get(MANUFACTURER_LIST_URL)
         man_list = Manufacturer.objects.all().order_by("name")
-        manufacturer_context = response.context["manufacturer_list.html"]
+        manufacturer_context = response.context["manufacturer_list"]
 
         self.assertEqual(
             list(manufacturer_context),
@@ -47,11 +47,11 @@ class CarListTest(TestCase):
         response = self.client.get(CAR_LIST_URL)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "taxi/car_list.html.html")
+        self.assertTemplateUsed(response, "taxi/car_list.html")
 
     def test_car_list_paginated_correctly(self):
         response = self.client.get(CAR_LIST_URL)
-        self.assertEqual(len(response.context["car_list.html"]), PAGINATION)
+        self.assertEqual(len(response.context["car_list"]), PAGINATION)
 
     def test_car_detail_response_with_correct_template(self):
         response = self.client.get(reverse("taxi:car-detail", args=[1]))
@@ -79,4 +79,4 @@ class DriverListTest(TestCase):
         response = self.client.get(reverse("taxi:driver-detail", args=[1]))
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "taxi/driver_detail.html.html")
+        self.assertTemplateUsed(response, "taxi/driver_detail.html")
